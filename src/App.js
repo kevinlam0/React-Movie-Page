@@ -29,6 +29,7 @@ const App = () => {
 
     // How the app is shown
     return (
+        // Main app
         <div className = "app">
             <h1>BIG MOVIES</h1>
             <div className = "search">
