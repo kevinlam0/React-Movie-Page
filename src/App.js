@@ -14,48 +14,53 @@ const movie1 = {
 }
 
 const App = () => {
-    // Hook for Setting the list of movies
     const [movies, setMovies] = useState([]);
+    const [searchTerm, setSearchTerm] = useState("");
 
-    // Fetches the movie API for the data
+    // Method to get the movie based on title input
     const searchMovies = async (title) => {
-        const response = await fetch(`${API_URL}&s={title}`);
+        const response = await fetch(`${API_URL}&s=${title}`);
         const data = await response.json();
+
         setMovies(data.Search);
-    };
+    }
+    
 
-    // Runs once at the beginning of the program
-    useEffect(() => { searchMovies('Spider-man') }, []);
-
-    // How the app is shown
+    // This will run at the beginning of the run because of the [] argument
+    useEffect(() => {
+        searchMovies('Spiderman');
+    }, [])
     return (
-        // Main app
-        <div className = "app">
-            <h1>BIG MOVIES</h1>
-            <div className = "search">
+        <div className="app">
+            <h1> Movieland </h1>
+            <div className="search">
                 <input 
-                    placeholder = "Search for Movies"
-                    value = ""
-                    onChange = {() => {}}
+                    placeholder="Search for movies"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
                 />
-                <img 
-                    src = {SearchIcon}
-                    alt = "search"
-                    onClick = {() => {}}
+                <img
+                    src={SearchIcon}
+                    alt="search"
+                    onClick={() => searchMovies(searchTerm)}
                 />
             </div>
+
             {
-                movies.length > 0
+                movies?.length > 0
                     ? (
-                        <div className = "container"> 
-                            <MovieCard movie = {movies[0]}/>
-                        </div>
+                    <div className="container">
+                        {movies.map((movie) => (
+                            <MovieCard movie={movie}/>
+                        ))}
+                    </div>
                     ) : (
-                        <div className = "empty"> 
+                        <div className="empty">
                             <h2>No movies found</h2>
-                        </div> 
+                        </div>
                     )
-            };
+            }
+            
         </div>
     )
 };
